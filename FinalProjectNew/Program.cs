@@ -202,9 +202,9 @@ Buy Time: {BuyTime}
 
         public static void RemoveCustomer(int id)
         {
-            var query = (from item in CustomerProducts
+            var query = from item in CustomerProducts
                 where item.CustomerId == id
-                select item);
+                select item;
 
             RemoveObject(id, Customers, GetCustomerById, query, CustomerProducts);
         }
@@ -216,9 +216,9 @@ Buy Time: {BuyTime}
 
         public static void RemoveProduct(int code)
         {
-            var query = (from item in CustomerProducts
+            var query = from item in CustomerProducts
                 where item.ProductCode == code
-                select item);
+                select item;
 
             RemoveObject(code, Products, GetProductByCode, query, CustomerProducts);
         }
@@ -230,9 +230,9 @@ Buy Time: {BuyTime}
 
         public static void RemoveDealer(int code)
         {
-            var query = (from item in CustomerProducts
+            var query = from item in CustomerProducts
                 where item.DealerCode == code
-                select item);
+                select item;
 
             RemoveObject(code, Dealers, GetDealerByCode, query, CustomerProducts);
         }
@@ -248,49 +248,49 @@ Buy Time: {BuyTime}
 
         public static Customer GetCustomerById(int id)
         {
-            return FirstOrNull((from customer in Customers
+            return FirstOrNull(from customer in Customers
                 where customer.CustomerId == id
-                select customer)) as Customer;
+                select customer) as Customer;
         }
 
 
         public static Customer GetCustomerByNationalCode(int code)
         {
-            return FirstOrNull((from customer in Customers
+            return FirstOrNull(from customer in Customers
                 where customer.NationalCode == code
-                select customer)) as Customer;
+                select customer) as Customer;
         }
 
 
         public static Product GetProductByCode(int code)
         {
-            return FirstOrNull((from product in Products
+            return FirstOrNull(from product in Products
                 where product.Code == code
-                select product)) as Product;
+                select product) as Product;
         }
 
 
         public static Dealer GetDealerByCode(int code)
         {
-            return FirstOrNull((from dealer in Dealers
+            return FirstOrNull(from dealer in Dealers
                 where dealer.Code == code
-                select dealer)) as Dealer;
+                select dealer) as Dealer;
         }
 
 
         public static CustomerProduct GetCustomerProduct(Customer customer, Product product, Dealer dealer)
         {
-            return FirstOrNull((from cp in CustomerProducts
+            return FirstOrNull(from cp in CustomerProducts
                 where cp.CustomerId == customer.CustomerId && cp.ProductCode == product.Code &&
                       cp.DealerCode == dealer.Code
-                select cp)) as CustomerProduct;
+                select cp) as CustomerProduct;
         }
 
         public static CustomerProduct GetCustomerProductById(int id, int pCode, int dCode)
         {
-            return FirstOrNull((from cp in CustomerProducts
+            return FirstOrNull(from cp in CustomerProducts
                 where cp.CustomerId == id && cp.ProductCode == pCode && cp.DealerCode == dCode
-                select cp)) as CustomerProduct;
+                select cp) as CustomerProduct;
         }
 
 
@@ -338,10 +338,8 @@ Buy Time: {BuyTime}
 
             var uList = new List<Product>();
             foreach (var item in list)
-            {
                 if (!uList.Contains(item))
                     uList.Add(item);
-            }
 
             return uList;
         }
@@ -391,10 +389,7 @@ Buy Time: {BuyTime}
 
             objList.Remove(obj);
 
-            foreach (var item in secondQuery)
-            {
-                secondList.Remove(item);
-            }
+            foreach (var item in secondQuery) secondList.Remove(item);
         }
 
 
@@ -422,10 +417,10 @@ Buy Time: {BuyTime}
             { "11: Get number of sales of a Product", GetProductSalesNumber },
             { "12: Get list of Products purchased by a Customer", GetCustomerPurchasedProducts },
             { "13: Get list of Dealers and their total sales", GetDealersAndSales },
-            { "14: Quit", null },
+            { "14: Quit", null }
         };
 
-        public readonly static string HelpMessage = String.Join("\n", HelpDict.Keys.ToList());
+        public static readonly string HelpMessage = string.Join("\n", HelpDict.Keys.ToList());
 
         private static readonly int HelpCount = HelpDict.Count;
         private static readonly int ExitOption = 14;
@@ -435,13 +430,9 @@ Buy Time: {BuyTime}
         {
             int option;
 
-            // ShoppingSystem.AddProduct(
-            // new Product("Chips", 1, 500, "MazMaz", 555)
-            // );
-
             while (true)
             {
-                bool valid = GetOption(out option);
+                var valid = GetOption(out option);
                 if (!valid)
                 {
                     Console.WriteLine("Invalid option");
@@ -463,7 +454,7 @@ Buy Time: {BuyTime}
             }
         }
 
-        static void ShowHelp()
+        private static void ShowHelp()
         {
             Console.WriteLine("Please enter a number to execute the corresponding command");
             Console.WriteLine(HelpMessage);
@@ -495,7 +486,7 @@ Buy Time: {BuyTime}
             return func(Console.ReadLine());
         }
 
-        private static Dictionary<string, string> GetFields(String[] fields)
+        private static Dictionary<string, string> GetFields(string[] fields)
         {
             var outFields = new Dictionary<string, string>();
 
@@ -676,10 +667,7 @@ Buy Time: {BuyTime}
             }
 
             Console.WriteLine($"Product customers: ");
-            foreach (var customer in customers)
-            {
-                Console.WriteLine($"~ {customer.FullName}");
-            }
+            foreach (var customer in customers) Console.WriteLine($"~ {customer.FullName}");
         }
 
         private static void GetProductsOfDealer()
@@ -693,10 +681,7 @@ Buy Time: {BuyTime}
             }
 
             Console.WriteLine($"Dealer products: ");
-            foreach (var item in prods)
-            {
-                Console.WriteLine($"> {item.Name}");
-            }
+            foreach (var item in prods) Console.WriteLine($"> {item.Name}");
         }
 
         private static void GetProductSalesNumber()
@@ -718,10 +703,7 @@ Buy Time: {BuyTime}
             }
 
             Console.WriteLine("Customer's Products:");
-            foreach (var product in res)
-            {
-                Console.WriteLine($"> {product.Name} (ID: {product.Code})");
-            }
+            foreach (var product in res) Console.WriteLine($"> {product.Name} (ID: {product.Code})");
         }
 
         private static void GetDealersAndSales()
@@ -729,10 +711,7 @@ Buy Time: {BuyTime}
             var res = ShoppingSystem.GetDealersAndTotalSales();
 
             Console.WriteLine("Dealers and Total Sales:");
-            foreach (var item in res)
-            {
-                Console.WriteLine($"> {item.Key.Name}: {item.Value}");
-            }
+            foreach (var item in res) Console.WriteLine($"> {item.Key.Name}: {item.Value}");
         }
     }
 }
