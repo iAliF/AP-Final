@@ -6,7 +6,7 @@ It's a **Shopping System** for a Dealer Shop
 
 You can find the project description in the **FinalProject.pdf** file
 
-### Mein Menu Options:
+### Main Menu Options:
 
 1. Add a Product
 2. Remove a Product
